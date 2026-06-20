@@ -122,16 +122,15 @@
       return null;
     }
 
+    /* Rozet her koşulda görünür kalır; yalnızca sayı metni güncellenir */
     function showCount(count) {
       counterOut.textContent = Number(count).toLocaleString("tr-TR");
-      counterWrap.hidden = false; /* sadece sayı geldiğinde göster */
     }
 
     /* Endpoint listesini sırayla dene; biri çalışırsa dur */
     function tryEndpoint(index) {
       if (index >= COUNTER_ENDPOINTS.length) {
-        counterWrap.hidden = true; /* hiçbir servis yanıt vermezse gizle */
-        return;
+        return; /* hiçbir servis yanıt vermezse "…" yükleniyor durumu kalır */
       }
       fetch(COUNTER_ENDPOINTS[index], { cache: "no-store" })
         .then(function (res) {

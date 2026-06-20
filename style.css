@@ -864,12 +864,6 @@ a {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* hidden özniteliği display:inline-flex tarafından ezilmesin
-   (sayı yüklenene kadar "—" görünmesini engeller) */
-.visit-badge[hidden] {
-  display: none !important;
-}
-
 /* Hover olunca tatlıca büyür */
 .visit-badge:hover {
   transform: scale(1.07);
