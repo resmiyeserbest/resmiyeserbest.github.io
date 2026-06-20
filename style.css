@@ -273,6 +273,138 @@ a {
   transform: scale(1);
 }
 
+/* ---------- Üst sağ aksiyonlar (dil + tema) ---------- */
+.nav-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* ---------- Dil seçim menüsü (dropdown) ---------- */
+.lang-switch {
+  position: relative;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 42px;
+  padding: 0 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.lang-toggle:hover {
+  border-color: var(--accent);
+}
+
+.lang-flag {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.lang-caret {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  transition: transform var(--transition);
+}
+
+.lang-toggle[aria-expanded="true"] .lang-caret {
+  transform: rotate(180deg);
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 160px;
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top right;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  z-index: 60;
+}
+
+.lang-switch.open .lang-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 9px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.lang-option:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.lang-option[aria-selected="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- Sağdan sola (RTL) — Arapça ---------- */
+[dir="rtl"] body,
+[dir="rtl"] .lead,
+[dir="rtl"] .services-intro,
+[dir="rtl"] .contact-lead {
+  text-align: right;
+}
+
+[dir="rtl"] .lang-menu {
+  right: auto;
+  left: 0;
+  transform-origin: top left;
+}
+
+[dir="rtl"] .visit-badge {
+  left: auto !important;
+  right: 25px !important;
+}
+
+[dir="rtl"] .visit-badge__live {
+  padding-left: 0;
+  padding-right: 0.3rem;
+  border-left: none;
+  border-right: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+[dir="rtl"] .info-list li,
+[dir="rtl"] .socials {
+  direction: rtl;
+}
+
 /* ---------- Hero ---------- */
 .hero {
   display: grid;
