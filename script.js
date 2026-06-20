@@ -100,37 +100,54 @@
     });
   }
 
-  /* 7) Ziyaretçi sayacı — CounterAPI (ücretsiz, anahtarsız servis)
-     Element ID'leri: kapsül = #visit-counter, sayı = #visit-count */
+  /* 7) Ziyaretçi sayacı — Abacus (ücretsiz, anahtarsız, CORS açık)
+     Element ID'leri: kapsül = #visit-counter, sayı = #visit-count
+     countapi.xyz kapandığı için Abacus kullanılıyor; yedek olarak CounterAPI. */
   var counterWrap = document.getElementById("visit-counter");
   var counterOut = document.getElementById("visit-count");
 
   if (counterWrap && counterOut && "fetch" in window) {
-    var COUNTER_URL =
-      "https://api.counterapi.dev/v1/resmiyeserbest-cv/site-visits/up";
+    /* Sırayla denenecek sayaç servisleri (ilki başarısız olursa diğerine geçilir) */
+    var COUNTER_ENDPOINTS = [
+      "https://abacus.jasoncameron.dev/hit/resmiyeserbest-cv/site-visits",
+      "https://api.counterapi.dev/v1/resmiyeserbest-cv/site-visits/up"
+    ];
 
-    /* Servisin döndürdüğü farklı JSON biçimlerinden sayıyı güvenle ayıkla */
+    /* Servislerin döndürdüğü farklı JSON biçimlerinden sayıyı güvenle ayıkla */
     function extractCount(data) {
       if (!data) return null;
-      if (typeof data.count === "number") return data.count;
-      if (typeof data.value === "number") return data.value;
+      if (typeof data.value === "number") return data.value; /* Abacus */
+      if (typeof data.count === "number") return data.count; /* CounterAPI */
       if (data.data && typeof data.data.count === "number") return data.data.count;
       return null;
     }
 
-    fetch(COUNTER_URL, { cache: "no-store" })
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        return res.json();
-      })
-      .then(function (data) {
-        var count = extractCount(data);
-        if (count == null) throw new Error("Sayı çözümlenemedi");
-        counterOut.textContent = Number(count).toLocaleString("tr-TR");
-        counterWrap.hidden = false; /* sadece sayı geldiğinde göster */
-      })
-      .catch(function () {
-        counterWrap.hidden = true; /* sayı yüklenemezse rozeti gizle */
-      });
+    function showCount(count) {
+      counterOut.textContent = Number(count).toLocaleString("tr-TR");
+      counterWrap.hidden = false; /* sadece sayı geldiğinde göster */
+    }
+
+    /* Endpoint listesini sırayla dene; biri çalışırsa dur */
+    function tryEndpoint(index) {
+      if (index >= COUNTER_ENDPOINTS.length) {
+        counterWrap.hidden = true; /* hiçbir servis yanıt vermezse gizle */
+        return;
+      }
+      fetch(COUNTER_ENDPOINTS[index], { cache: "no-store" })
+        .then(function (res) {
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          var count = extractCount(data);
+          if (count == null) throw new Error("Sayı çözümlenemedi");
+          showCount(count);
+        })
+        .catch(function () {
+          tryEndpoint(index + 1); /* sonraki servisi dene */
+        });
+    }
+
+    tryEndpoint(0);
   }
 })();
