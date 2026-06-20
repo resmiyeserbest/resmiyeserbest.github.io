@@ -1371,3 +1371,30 @@ a {
     height: 3px;
   }
 }
+
+/* PC Ekranında Robot Kolunu Parlatma ve Görünür Yapma */
+.robot-animation-container, .robot-container, [class*="robot"] {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-height: 350px !important;
+}
+.robot-container svg, [class*="robot"] svg {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 500px !important;
+}
+.robot-container svg path, 
+.robot-container svg circle, 
+.robot-container svg line,
+[class*="robot"] svg path,
+[class*="robot"] svg circle {
+    stroke: #00ffff !important; /* Elektrik Mavisi Çizgiler */
+    stroke-width: 2.5px !important;
+    fill: none !important;
+    filter: drop-shadow(0 0 8px #8a2be2) !important; /* Mor Neon Parlama */
+}
+
