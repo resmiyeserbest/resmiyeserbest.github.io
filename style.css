@@ -835,17 +835,112 @@ a {
   font-size: 0.9rem;
 }
 
-.visit-counter {
-  margin-top: 0.6rem;
+/* ---------- Ziyaretçi sayacı rozeti ---------- */
+.visit-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
   font-size: 0.82rem;
   letter-spacing: 0.01em;
+  color: var(--text);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+  overflow: hidden;
+  isolation: isolate;
+  animation: badge-pulse 2.8s ease-in-out infinite;
+}
+
+/* Dönen ışıltılı kenar parıltısı */
+.visit-badge__glow {
+  position: absolute;
+  inset: -150%;
+  z-index: -2;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in srgb, var(--accent) 70%, transparent) 60deg,
+    transparent 140deg
+  );
+  animation: badge-rotate 4s linear infinite;
+}
+
+/* İç dolgu — parıltının yalnızca kenarda görünmesini sağlar */
+.visit-badge::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--bg-elevated);
+}
+
+/* Üzerinden geçen parlama (shimmer) efekti */
+.visit-badge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    color-mix(in srgb, var(--accent) 28%, transparent) 50%,
+    transparent 70%
+  );
+  background-size: 250% 100%;
+  animation: badge-shimmer 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.visit-badge__icon {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.visit-badge__text {
+  position: relative;
+  z-index: 1;
   color: var(--text-muted);
 }
 
-.visit-counter strong {
+.visit-badge strong {
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+@keyframes badge-rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes badge-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  60%,
+  100% {
+    background-position: -120% 0;
+  }
+}
+
+@keyframes badge-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 18px 2px color-mix(in srgb, var(--accent) 32%, transparent);
+  }
 }
 
 /* ---------- Erişilebilirlik: odak halkası ---------- */
@@ -857,7 +952,10 @@ a {
 
 /* ---------- Hareket azaltma tercihi ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .avatar-ring {
+  .avatar-ring,
+  .visit-badge,
+  .visit-badge__glow,
+  .visit-badge::after {
     animation: none;
   }
   html {
