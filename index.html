@@ -73,21 +73,12 @@
       </ul>
       <div class="nav-actions">
         <!-- Dil seçim menüsü (TR / EN / DE / AR) -->
-        <div class="lang-switch">
-          <button id="lang-toggle" class="lang-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Dil seç / Select language">
-            <span class="lang-flag" id="lang-current-flag">🇹🇷</span>
-            <span class="lang-code" id="lang-current-code">TR</span>
-            <svg class="lang-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </button>
-          <ul class="lang-menu" id="lang-menu" role="listbox" aria-label="Dil / Language">
-            <li class="lang-option" role="option" data-lang="tr"><span class="lang-flag">🇹🇷</span><span>Türkçe</span></li>
-            <li class="lang-option" role="option" data-lang="en"><span class="lang-flag">🇬🇧</span><span>English</span></li>
-            <li class="lang-option" role="option" data-lang="de"><span class="lang-flag">🇩🇪</span><span>Deutsch</span></li>
-            <li class="lang-option" role="option" data-lang="ar"><span class="lang-flag">🇸🇦</span><span>العربية</span></li>
-          </ul>
-        </div>
+        <select id="lang-select" class="lang-select" aria-label="Dil seç / Select language">
+          <option value="tr">🇹🇷 TR</option>
+          <option value="en">🇬🇧 EN</option>
+          <option value="de">🇩🇪 DE</option>
+          <option value="ar">🇸🇦 AR</option>
+        </select>
         <button id="theme-toggle" class="theme-toggle" aria-label="Temayı değiştir" title="Temayı değiştir">
           <span class="theme-icon theme-icon--sun" aria-hidden="true">☀️</span>
           <span class="theme-icon theme-icon--moon" aria-hidden="true">🌙</span>

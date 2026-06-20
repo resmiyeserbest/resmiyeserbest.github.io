@@ -566,20 +566,9 @@
       if (dict[phKey] != null) phNodes[j].setAttribute("placeholder", dict[phKey]);
     }
 
-    /* Dil düğmesi göstergesi */
-    var flagEl = document.getElementById("lang-current-flag");
-    var codeEl = document.getElementById("lang-current-code");
-    if (flagEl) flagEl.textContent = meta.flag;
-    if (codeEl) codeEl.textContent = meta.code;
-
-    /* Menüde seçili dili işaretle */
-    var opts = document.querySelectorAll(".lang-option");
-    for (var k = 0; k < opts.length; k++) {
-      opts[k].setAttribute(
-        "aria-selected",
-        opts[k].getAttribute("data-lang") === lang ? "true" : "false"
-      );
-    }
+    /* Select kutusunda seçili dili işaretle */
+    var selectEl = document.getElementById("lang-select");
+    if (selectEl && selectEl.value !== lang) selectEl.value = lang;
   }
 
   function setLanguage(lang) {
@@ -602,40 +591,11 @@
     return SUPPORTED.indexOf(nav) !== -1 ? nav : "tr";
   }
 
-  /* Dil menüsü aç/kapa ve seçim */
-  var langSwitch = document.querySelector(".lang-switch");
-  var langToggle = document.getElementById("lang-toggle");
-  var langMenu = document.getElementById("lang-menu");
-
-  if (langSwitch && langToggle && langMenu) {
-    function openMenu() {
-      langSwitch.classList.add("open");
-      langToggle.setAttribute("aria-expanded", "true");
-    }
-    function closeMenu() {
-      langSwitch.classList.remove("open");
-      langToggle.setAttribute("aria-expanded", "false");
-    }
-
-    langToggle.addEventListener("click", function (e) {
-      e.stopPropagation();
-      if (langSwitch.classList.contains("open")) closeMenu();
-      else openMenu();
-    });
-
-    langMenu.addEventListener("click", function (e) {
-      var li = e.target.closest(".lang-option");
-      if (!li) return;
-      setLanguage(li.getAttribute("data-lang"));
-      closeMenu();
-    });
-
-    /* Dışarı tıklayınca veya ESC ile kapat */
-    document.addEventListener("click", function (e) {
-      if (!langSwitch.contains(e.target)) closeMenu();
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeMenu();
+  /* Dil seçimi — native <select> değişikliğini dinle */
+  var langSelect = document.getElementById("lang-select");
+  if (langSelect) {
+    langSelect.addEventListener("change", function () {
+      setLanguage(langSelect.value);
     });
   }
 
