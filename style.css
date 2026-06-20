@@ -1047,30 +1047,31 @@ a {
 /* ---------- Canlı izleme kutucuğu: telefon optimizasyonu ---------- */
 @media (max-width: 480px) {
   .visit-badge {
-    bottom: 14px !important;
-    left: 14px !important;
-    gap: 0.3rem;
-    padding: 4px 9px;
-    font-size: 10px;
+    bottom: 10px !important;
+    left: 10px !important;
+    gap: 0.18rem;
+    padding: 2px 6px;
+    font-size: 8px;
+    border-radius: 999px;
   }
 
   /* İki satır yerine tek satırda yan yana göster */
   .visit-badge__text {
     flex-direction: row;
     align-items: center;
-    gap: 0.4rem;
-    line-height: 1.2;
+    gap: 0.25rem;
+    line-height: 1.15;
   }
 
   /* Satırları ayıran ince dikey çizgi */
   .visit-badge__live {
-    font-size: 10px;
-    padding-left: 0.4rem;
+    font-size: 8px;
+    padding-left: 0.25rem;
     border-left: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   }
 
   .visit-badge__dot {
-    width: 5px;
-    height: 5px;
+    width: 4px;
+    height: 4px;
   }
 }
