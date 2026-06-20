@@ -111,7 +111,7 @@
         </ul>
       </div>
       <div class="hero-avatar" aria-hidden="true">
-        <svg class="robot" viewBox="0 0 280 300" role="img" aria-label="Endüstriyel robot kolu animasyonu" focusable="false">
+        <svg class="robot" viewBox="0 0 320 300" role="img" aria-label="Otonom paletleme yapan endüstriyel robot kolu animasyonu" focusable="false">
           <defs>
             <linearGradient id="armGrad" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#a5b4fc" />
@@ -124,38 +124,50 @@
           </defs>
 
           <!-- Zemin ışıltısı -->
-          <ellipse class="robot-floor" cx="140" cy="288" rx="100" ry="11" />
+          <ellipse class="robot-floor" cx="160" cy="288" rx="150" ry="11" />
 
-          <!-- Kutunun indiği sabit platform -->
-          <rect class="robot-platform" x="140" y="240" width="66" height="12" rx="4" />
+          <!-- Sol: besleme konveyörü (kutuların geldiği yer) -->
+          <rect class="robot-belt" x="16" y="216" width="64" height="9" rx="3" />
 
-          <!-- Robot tabanı ve kolonu -->
-          <rect class="robot-base" x="104" y="270" width="72" height="16" rx="5" />
-          <rect class="robot-pedestal" x="130" y="206" width="20" height="68" rx="7" />
-          <circle class="robot-core" cx="140" cy="242" r="6" />
+          <!-- Sağ: palet ve ayakları -->
+          <rect class="robot-pallet" x="212" y="250" width="98" height="9" rx="2" />
+          <rect class="robot-pallet" x="220" y="259" width="12" height="6" rx="1" />
+          <rect class="robot-pallet" x="290" y="259" width="12" height="6" rx="1" />
+
+          <!-- Palete dizilen 8 kutu (alt sıra L→R, sonra üst sıra L→R) -->
+          <rect class="pbox pbox-1" x="220" y="232" width="20" height="17" rx="2" />
+          <rect class="pbox pbox-2" x="242" y="232" width="20" height="17" rx="2" />
+          <rect class="pbox pbox-3" x="264" y="232" width="20" height="17" rx="2" />
+          <rect class="pbox pbox-4" x="286" y="232" width="20" height="17" rx="2" />
+          <rect class="pbox pbox-5" x="220" y="214" width="20" height="17" rx="2" />
+          <rect class="pbox pbox-6" x="242" y="214" width="20" height="17" rx="2" />
+          <rect class="pbox pbox-7" x="264" y="214" width="20" height="17" rx="2" />
+          <rect class="pbox pbox-8" x="286" y="214" width="20" height="17" rx="2" />
+
+          <!-- Robot tabanı, gövde kolonu ve enerji çekirdeği -->
+          <rect class="robot-base" x="78" y="262" width="64" height="16" rx="5" />
+          <rect class="robot-pedestal" x="98" y="196" width="24" height="68" rx="8" />
+          <circle class="robot-core" cx="110" cy="232" r="5" />
 
           <!-- 1. Eksen: omuz -->
           <g class="r-shoulder">
-            <path class="r-bone" d="M140 206 L104 140" />
-            <circle class="r-joint" cx="140" cy="206" r="11" />
+            <path class="r-bone" d="M110 196 L158 126" />
+            <circle class="r-joint" cx="110" cy="196" r="12" />
 
             <!-- 2. Eksen: dirsek -->
             <g class="r-elbow">
-              <path class="r-bone" d="M104 140 L172 196" />
-              <circle class="r-joint" cx="104" cy="140" r="9" />
+              <path class="r-bone" d="M158 126 L210 160" />
+              <circle class="r-joint" cx="158" cy="126" r="9" />
 
-              <!-- 3. Eksen: bilek + kavrayıcı + kutu -->
+              <!-- 3. Eksen: bilek + kavrayıcı + taşınan kutu -->
               <g class="r-wrist">
-                <rect class="r-gripper" x="161" y="194" width="22" height="11" rx="2" />
-                <circle class="r-joint" cx="172" cy="196" r="7" />
+                <rect class="r-gripper" x="200" y="158" width="22" height="10" rx="2" />
+                <circle class="r-joint" cx="210" cy="160" r="7" />
                 <!-- Mekanik pençeler -->
-                <path class="r-claw r-claw-l" d="M164 205 L160 217" />
-                <path class="r-claw r-claw-r" d="M180 205 L184 217" />
+                <path class="r-claw r-claw-l" d="M203 168 L199 180" />
+                <path class="r-claw r-claw-r" d="M219 168 L223 180" />
                 <!-- Taşınan kutu -->
-                <g class="r-payload">
-                  <rect class="robot-box" x="154" y="210" width="36" height="30" rx="3" />
-                  <path class="robot-box-line" d="M154 221 H190 M172 210 V240" />
-                </g>
+                <rect class="carried" x="200" y="182" width="22" height="18" rx="2" />
               </g>
             </g>
           </g>

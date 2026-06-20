@@ -454,9 +454,11 @@ a {
   place-items: center;
 }
 
-/* ---------- Fütüristik 3 eksenli robot kolu ---------- */
+/* ---------- Fütüristik paletleme (palletizing) robot kolu ----------
+   Döngü: 16 sn = 8 × 2 sn. Her 2 sn'de soldan bir kutu alınıp palete
+   bırakılır; 8 kutu dizilince palet temizlenir ve döngü baştan başlar. */
 .robot {
-  width: clamp(240px, 30vw, 360px);
+  width: clamp(250px, 32vw, 380px);
   height: auto;
   overflow: visible;
   filter: drop-shadow(0 6px 18px rgba(99, 102, 241, 0.35));
@@ -470,36 +472,37 @@ a {
   transform-box: view-box;
 }
 
+/* Mekanik ama akıcı his için yumuşak ivmelenme */
 .r-shoulder {
-  transform-origin: 140px 206px;
-  animation: r-shoulder 5s ease-in-out infinite;
+  transform-origin: 110px 196px;
+  animation: r-shoulder 2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
 }
 
 .r-elbow {
-  transform-origin: 104px 140px;
-  animation: r-elbow 5s ease-in-out infinite;
+  transform-origin: 158px 126px;
+  animation: r-elbow 2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
 }
 
 .r-wrist {
-  transform-origin: 172px 196px;
-  animation: r-wrist 5s ease-in-out infinite;
+  transform-origin: 210px 160px;
+  animation: r-wrist 2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
 }
 
 .r-claw-l {
-  transform-origin: 164px 205px;
-  animation: r-claw-l 5s ease-in-out infinite;
+  transform-origin: 203px 168px;
+  animation: r-claw-l 2s ease-in-out infinite;
 }
 
 .r-claw-r {
-  transform-origin: 180px 205px;
-  animation: r-claw-r 5s ease-in-out infinite;
+  transform-origin: 219px 168px;
+  animation: r-claw-r 2s ease-in-out infinite;
 }
 
 /* Kol kemikleri — neon gradyan, parıltılı */
 .r-bone {
   fill: none;
   stroke: url(#armGrad);
-  stroke-width: 15;
+  stroke-width: 14;
   stroke-linecap: round;
   filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.65));
 }
@@ -521,7 +524,7 @@ a {
   stroke-linecap: round;
 }
 
-/* Taban, kolon ve platform */
+/* Taban, kolon, konveyör ve palet */
 .robot-base,
 .robot-pedestal {
   fill: var(--bg-elevated);
@@ -529,8 +532,14 @@ a {
   stroke-width: 2.5;
 }
 
-.robot-platform {
-  fill: color-mix(in srgb, var(--accent) 22%, transparent);
+.robot-belt {
+  fill: color-mix(in srgb, var(--accent) 20%, transparent);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.robot-pallet {
+  fill: color-mix(in srgb, var(--accent) 28%, transparent);
   stroke: var(--accent);
   stroke-width: 2;
 }
@@ -545,55 +554,123 @@ a {
   animation: r-core 2s ease-in-out infinite;
 }
 
-/* Taşınan kutu — neon */
-.robot-box {
+/* Taşınan kutu — neon, gripper ile birlikte hareket eder */
+.carried {
   fill: url(#boxGrad);
   stroke: #c7d2fe;
   stroke-width: 1.5;
   filter: drop-shadow(0 0 7px rgba(99, 102, 241, 0.75));
+  animation: r-carried 2s ease-in-out infinite;
 }
 
-.robot-box-line {
-  stroke: rgba(255, 255, 255, 0.55);
+/* Palete dizilen kutular */
+.pbox {
+  fill: url(#boxGrad);
+  stroke: #c7d2fe;
   stroke-width: 1.5;
-  fill: none;
+  filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.7));
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation-duration: 16s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
 }
 
-/* Hareket döngüsü: omuz + dirsek kalkar, bilek kutuyu dik tutar */
+.pbox-1 { animation-name: pbox-1; }
+.pbox-2 { animation-name: pbox-2; }
+.pbox-3 { animation-name: pbox-3; }
+.pbox-4 { animation-name: pbox-4; }
+.pbox-5 { animation-name: pbox-5; }
+.pbox-6 { animation-name: pbox-6; }
+.pbox-7 { animation-name: pbox-7; }
+.pbox-8 { animation-name: pbox-8; }
+
+/* --- Kol hareket döngüsü (2 sn): solda al → sağda palete bırak → dön --- */
 @keyframes r-shoulder {
-  0%, 12% { transform: rotate(0deg); }
-  45%, 60% { transform: rotate(-18deg); }
-  93%, 100% { transform: rotate(0deg); }
+  0%, 12% { transform: rotate(-46deg); }   /* solda kutuyu al */
+  48%, 60% { transform: rotate(20deg); }   /* sağda palete götür */
+  96%, 100% { transform: rotate(-46deg); } /* sola dön */
 }
 
 @keyframes r-elbow {
-  0%, 12% { transform: rotate(0deg); }
-  45%, 60% { transform: rotate(-20deg); }
-  93%, 100% { transform: rotate(0deg); }
+  0%, 12% { transform: rotate(46deg); }     /* kısa sol erişim için bükük */
+  48%, 60% { transform: rotate(-10deg); }   /* sağ erişim için açık */
+  96%, 100% { transform: rotate(46deg); }
 }
 
 @keyframes r-wrist {
-  0%, 12% { transform: rotate(0deg); }
-  45%, 60% { transform: rotate(38deg); }
-  93%, 100% { transform: rotate(0deg); }
+  0%, 12% { transform: rotate(0deg); }      /* kutuyu dik tut */
+  48%, 60% { transform: rotate(-10deg); }
+  96%, 100% { transform: rotate(0deg); }
 }
 
-/* Pençeler: en altta açılır (bırak/yakala), kaldırırken kapalı */
+/* Pençeler: alırken/bırakırken açılır, taşırken kapalı */
 @keyframes r-claw-l {
-  0%, 5% { transform: rotate(-12deg); }
-  14%, 90% { transform: rotate(0deg); }
-  98%, 100% { transform: rotate(-12deg); }
+  0% { transform: rotate(-14deg); }
+  12%, 50% { transform: rotate(0deg); }
+  56%, 100% { transform: rotate(-14deg); }
 }
 
 @keyframes r-claw-r {
-  0%, 5% { transform: rotate(12deg); }
-  14%, 90% { transform: rotate(0deg); }
-  98%, 100% { transform: rotate(12deg); }
+  0% { transform: rotate(14deg); }
+  12%, 50% { transform: rotate(0deg); }
+  56%, 100% { transform: rotate(14deg); }
+}
+
+/* Taşınan kutu: yakalanınca görünür, bırakılınca kaybolur */
+@keyframes r-carried {
+  0%, 11% { opacity: 0; }
+  13%, 50% { opacity: 1; }
+  55%, 100% { opacity: 0; }
 }
 
 @keyframes r-core {
   0%, 100% { opacity: 0.55; }
   50% { opacity: 1; }
+}
+
+/* --- 8 palet kutusu: sırayla belirir, 8 tamamlanınca hepsi temizlenir ---
+   Her kutu, kola ait teslim anında (her 2 sn'nin sonunda) pop yapar. */
+@keyframes pbox-1 {
+  0%, 6% { opacity: 0; transform: translateY(-8px) scale(0.8); }
+  8%, 95% { opacity: 1; transform: translateY(0) scale(1); }
+  98%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+}
+@keyframes pbox-2 {
+  0%, 18% { opacity: 0; transform: translateY(-8px) scale(0.8); }
+  20%, 95% { opacity: 1; transform: translateY(0) scale(1); }
+  98%, 100% { opacity: 0; }
+}
+@keyframes pbox-3 {
+  0%, 31% { opacity: 0; transform: translateY(-8px) scale(0.8); }
+  33%, 95% { opacity: 1; transform: translateY(0) scale(1); }
+  98%, 100% { opacity: 0; }
+}
+@keyframes pbox-4 {
+  0%, 43% { opacity: 0; transform: translateY(-8px) scale(0.8); }
+  45%, 95% { opacity: 1; transform: translateY(0) scale(1); }
+  98%, 100% { opacity: 0; }
+}
+@keyframes pbox-5 {
+  0%, 56% { opacity: 0; transform: translateY(-8px) scale(0.8); }
+  58%, 95% { opacity: 1; transform: translateY(0) scale(1); }
+  98%, 100% { opacity: 0; }
+}
+@keyframes pbox-6 {
+  0%, 68% { opacity: 0; transform: translateY(-8px) scale(0.8); }
+  70%, 95% { opacity: 1; transform: translateY(0) scale(1); }
+  98%, 100% { opacity: 0; }
+}
+@keyframes pbox-7 {
+  0%, 81% { opacity: 0; transform: translateY(-8px) scale(0.8); }
+  83%, 95% { opacity: 1; transform: translateY(0) scale(1); }
+  98%, 100% { opacity: 0; }
+}
+@keyframes pbox-8 {
+  0%, 93% { opacity: 0; transform: translateY(-8px) scale(0.8); }
+  95% { opacity: 1; transform: translateY(0) scale(1); }
+  97%, 100% { opacity: 0; }
 }
 
 /* ---------- Hakkımda ---------- */
@@ -1191,10 +1268,17 @@ a {
   .r-wrist,
   .r-claw,
   .robot-core,
+  .carried,
+  .pbox,
   .visit-badge,
   .visit-badge__dot,
   .visit-badge::after {
     animation: none;
+  }
+
+  /* Hareket kapalıyken dolu paleti göster */
+  .pbox {
+    opacity: 1;
   }
   html {
     scroll-behavior: auto;
