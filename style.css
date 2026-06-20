@@ -1049,29 +1049,30 @@ a {
   .visit-badge {
     bottom: 10px !important;
     left: 10px !important;
-    gap: 0.18rem;
+    gap: 0.25rem;
     padding: 2px 6px;
-    font-size: 8px;
+    font-size: 9px;
     border-radius: 999px;
   }
 
-  /* İki satır yerine tek satırda yan yana göster */
+  /* Kısa metni tek satırda yan yana göster: Toplam: X | Canlı: Y */
   .visit-badge__text {
     flex-direction: row;
     align-items: center;
-    gap: 0.25rem;
-    line-height: 1.15;
+    gap: 0.3rem;
+    line-height: 1.1;
   }
 
-  /* Satırları ayıran ince dikey çizgi */
+  /* İki bilgiyi ayıran ince dikey çizgi ( | ) */
   .visit-badge__live {
-    font-size: 8px;
-    padding-left: 0.25rem;
+    font-size: 9px;
+    padding-left: 0.3rem;
     border-left: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   }
 
+  /* Yeşil canlı sinyal noktasını telefonda küçült */
   .visit-badge__dot {
-    width: 4px;
-    height: 4px;
+    width: 3px;
+    height: 3px;
   }
 }

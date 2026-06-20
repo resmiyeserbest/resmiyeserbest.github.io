@@ -100,11 +100,13 @@
     });
   }
 
-  /* 7) Ziyaretçi sayacı — toplam (localStorage) + anlık aktif (simülasyon) */
+  /* 7) Ziyaretçi sayacı — toplam (localStorage) + anlık aktif (simülasyon)
+     Masaüstünde uzun metin, telefonda kısa "Toplam: X | Canlı: Y" biçimi. */
+  var totalEl = document.querySelector(".visit-badge__total");
+  var liveEl = document.querySelector(".visit-badge__live");
 
-  /* 7a) Toplam ziyaret: her açılışta localStorage ile 1 artır */
-  var counterOut = document.getElementById("visit-count");
-  if (counterOut) {
+  if (totalEl && liveEl) {
+    /* 7a) Toplam ziyaret: her açılışta localStorage ile 1 artır */
     var VISIT_KEY = "cv-visit-count";
     var total = 1;
     try {
@@ -114,18 +116,38 @@
     } catch (e) {
       total = 1; /* localStorage kapalıysa en az 1 göster */
     }
-    counterOut.textContent = total.toLocaleString("tr-TR");
-  }
 
-  /* 7b) Anlık aktif ziyaretçi: 1–3 arasında rastgele canlı değişim */
-  var activeOut = document.getElementById("active-count");
-  if (activeOut) {
-    function updateActive() {
-      var n = 1 + Math.floor(Math.random() * 3); /* 1, 2 veya 3 */
-      activeOut.textContent = n;
-      var nextDelay = 3000 + Math.random() * 4000; /* 3–7 sn sonra tekrar */
-      window.setTimeout(updateActive, nextDelay);
+    var active = 2;
+    var mq = window.matchMedia("(max-width: 480px)");
+
+    /* Viewport'a göre metni çiz (telefonda ultra-kısa, masaüstünde tam) */
+    function render() {
+      var t = total.toLocaleString("tr-TR");
+      if (mq.matches) {
+        totalEl.innerHTML = "Toplam: <strong>" + t + "</strong>";
+        liveEl.innerHTML = "Canlı: <strong>" + active + "</strong>";
+      } else {
+        totalEl.innerHTML = "Toplam <strong>" + t + "</strong> ziyaret";
+        liveEl.innerHTML =
+          "• Şu an sayfada <strong>" + active + "</strong> ziyaretçi var";
+      }
     }
-    updateActive();
+
+    /* 7b) Anlık aktif ziyaretçi: 1–3 arasında rastgele canlı değişim */
+    function tickActive() {
+      active = 1 + Math.floor(Math.random() * 3); /* 1, 2 veya 3 */
+      render();
+      window.setTimeout(tickActive, 3000 + Math.random() * 4000); /* 3–7 sn */
+    }
+
+    render();
+    tickActive();
+
+    /* Ekran boyutu eşiği değişince metni yeniden çiz */
+    if (mq.addEventListener) {
+      mq.addEventListener("change", render);
+    } else if (mq.addListener) {
+      mq.addListener(render); /* eski tarayıcı uyumu */
+    }
   }
 })();
