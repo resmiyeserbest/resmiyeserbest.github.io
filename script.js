@@ -100,53 +100,23 @@
     });
   }
 
-  /* 7) Ziyaretçi sayacı — Abacus (ücretsiz, anahtarsız, CORS açık)
-     Element ID'leri: kapsül = #visit-counter, sayı = #visit-count
-     countapi.xyz kapandığı için Abacus kullanılıyor; yedek olarak CounterAPI. */
-  var counterWrap = document.getElementById("visit-counter");
+  /* 7) Ziyaretçi sayacı — tarayıcı localStorage (internet gerektirmez)
+     Her açılışta sayıyı 1 artırır ve #visit-count kutusuna yazar. */
   var counterOut = document.getElementById("visit-count");
 
-  if (counterWrap && counterOut && "fetch" in window) {
-    /* Sırayla denenecek sayaç servisleri (ilki başarısız olursa diğerine geçilir) */
-    var COUNTER_ENDPOINTS = [
-      "https://abacus.jasoncameron.dev/hit/resmiyeserbest-cv/site-visits",
-      "https://api.counterapi.dev/v1/resmiyeserbest-cv/site-visits/up"
-    ];
+  if (counterOut) {
+    var VISIT_KEY = "cv-visit-count";
+    var count = 1;
 
-    /* Servislerin döndürdüğü farklı JSON biçimlerinden sayıyı güvenle ayıkla */
-    function extractCount(data) {
-      if (!data) return null;
-      if (typeof data.value === "number") return data.value; /* Abacus */
-      if (typeof data.count === "number") return data.count; /* CounterAPI */
-      if (data.data && typeof data.data.count === "number") return data.data.count;
-      return null;
+    try {
+      var stored = parseInt(localStorage.getItem(VISIT_KEY), 10);
+      count = (isNaN(stored) ? 0 : stored) + 1;
+      localStorage.setItem(VISIT_KEY, String(count));
+    } catch (e) {
+      /* localStorage kapalıysa en az 1 göster */
+      count = 1;
     }
 
-    /* Rozet her koşulda görünür kalır; yalnızca sayı metni güncellenir */
-    function showCount(count) {
-      counterOut.textContent = Number(count).toLocaleString("tr-TR");
-    }
-
-    /* Endpoint listesini sırayla dene; biri çalışırsa dur */
-    function tryEndpoint(index) {
-      if (index >= COUNTER_ENDPOINTS.length) {
-        return; /* hiçbir servis yanıt vermezse "…" yükleniyor durumu kalır */
-      }
-      fetch(COUNTER_ENDPOINTS[index], { cache: "no-store" })
-        .then(function (res) {
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          return res.json();
-        })
-        .then(function (data) {
-          var count = extractCount(data);
-          if (count == null) throw new Error("Sayı çözümlenemedi");
-          showCount(count);
-        })
-        .catch(function () {
-          tryEndpoint(index + 1); /* sonraki servisi dene */
-        });
-    }
-
-    tryEndpoint(0);
+    counterOut.textContent = count.toLocaleString("tr-TR");
   }
 })();
