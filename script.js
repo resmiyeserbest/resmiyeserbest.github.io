@@ -100,24 +100,37 @@
     });
   }
 
-  /* 7) Ziyaretçi sayacı — CounterAPI (ücretsiz, anahtarsız servis) */
+  /* 7) Ziyaretçi sayacı — CounterAPI (ücretsiz, anahtarsız servis)
+     Element ID'leri: kapsül = #visit-counter, sayı = #visit-count */
   var counterWrap = document.getElementById("visit-counter");
   var counterOut = document.getElementById("visit-count");
 
   if (counterWrap && counterOut && "fetch" in window) {
-    fetch("https://api.counterapi.dev/v1/resmiyeserbest-cv/site-visits/up")
+    var COUNTER_URL =
+      "https://api.counterapi.dev/v1/resmiyeserbest-cv/site-visits/up";
+
+    /* Servisin döndürdüğü farklı JSON biçimlerinden sayıyı güvenle ayıkla */
+    function extractCount(data) {
+      if (!data) return null;
+      if (typeof data.count === "number") return data.count;
+      if (typeof data.value === "number") return data.value;
+      if (data.data && typeof data.data.count === "number") return data.data.count;
+      return null;
+    }
+
+    fetch(COUNTER_URL, { cache: "no-store" })
       .then(function (res) {
-        if (!res.ok) throw new Error("Sayaç yanıtı geçersiz");
+        if (!res.ok) throw new Error("HTTP " + res.status);
         return res.json();
       })
       .then(function (data) {
-        var count = data && (data.count != null ? data.count : data.value);
-        if (count == null) return;
+        var count = extractCount(data);
+        if (count == null) throw new Error("Sayı çözümlenemedi");
         counterOut.textContent = Number(count).toLocaleString("tr-TR");
-        counterWrap.hidden = false;
+        counterWrap.hidden = false; /* sadece sayı geldiğinde göster */
       })
       .catch(function () {
-        /* Servise ulaşılamazsa sayaç gizli kalır */
+        counterWrap.hidden = true; /* sayı yüklenemezse rozeti gizle */
       });
   }
 })();
