@@ -1,0 +1,907 @@
+/* =========================================================
+   Resmiye Serbest — CV Sitesi · style.css
+   Modern, responsive ve koyu/açık tema destekli stil dosyası
+   Başlıklar: Space Grotesk · Gövde: Inter
+   ========================================================= */
+
+/* ---------- Tema değişkenleri ---------- */
+:root {
+  --bg: #f7f8fa;
+  --bg-elevated: #ffffff;
+  --text: #1a1d24;
+  --text-muted: #5b6472;
+  --border: #e4e7ec;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: rgba(79, 70, 229, 0.1);
+  --shadow: 0 10px 30px rgba(20, 24, 40, 0.08);
+  --ring: rgba(79, 70, 229, 0.35);
+
+  /* Logo renkleri — açık tema: antrasit gövde + kırmızı ay-yıldız */
+  --logo-arm: #2b2f36;
+  --logo-accent: #e30a17;
+
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-head: "Space Grotesk", var(--font-body);
+  --radius: 16px;
+  --max-width: 1080px;
+  --transition: 0.25s ease;
+}
+
+[data-theme="dark"] {
+  --bg: #0d1017;
+  --bg-elevated: #161b25;
+  --text: #e7eaf0;
+  --text-muted: #9aa4b2;
+  --border: #232a36;
+  --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-soft: rgba(129, 140, 248, 0.14);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --ring: rgba(129, 140, 248, 0.45);
+
+  /* Logo renkleri — koyu tema: beyaz gövde + neon mavi ay-yıldız */
+  --logo-arm: #e8edf5;
+  --logo-accent: #38bdf8;
+}
+
+/* ---------- Temel sıfırlama ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--transition), color var(--transition);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-head);
+  line-height: 1.2;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- Yardımcılar ---------- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.section {
+  padding-block: 4.5rem;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.5rem;
+  width: 48px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--accent);
+}
+
+/* ---------- Butonlar ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform var(--transition), background var(--transition),
+    color var(--transition), border-color var(--transition);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------- Üst gezinme ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+/* SVG endüstriyel robot kolu logosu */
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: block;
+  transition: transform var(--transition);
+}
+
+.brand:hover .brand-logo {
+  transform: rotate(-8deg) scale(1.05);
+}
+
+.logo-arm {
+  fill: var(--logo-arm);
+  stroke: var(--logo-arm);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Eklem noktaları ve taban dolgulu kalsın, çizgi olmasın */
+.logo-arm circle,
+.logo-arm rect {
+  stroke: none;
+}
+
+/* Kollar yalnızca çizgi (dolgusuz) */
+.logo-arm path {
+  fill: none;
+}
+
+.logo-accent {
+  fill: var(--logo-accent);
+  filter: drop-shadow(0 0 2.5px var(--logo-accent));
+}
+
+.brand-text {
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+/* ---------- Tema düğmesi ---------- */
+.theme-toggle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  transform: rotate(15deg);
+}
+
+.theme-icon {
+  grid-area: 1 / 1;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+/* Açık temada ay gizli, koyu temada güneş gizli */
+[data-theme="light"] .theme-icon--moon,
+[data-theme="dark"] .theme-icon--sun {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+[data-theme="light"] .theme-icon--sun,
+[data-theme="dark"] .theme-icon--moon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  padding-block: 5rem;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  letter-spacing: -0.03em;
+}
+
+.role {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: var(--text-muted);
+  font-weight: 500;
+  margin: 0.5rem 0 1rem;
+}
+
+.lead {
+  max-width: 52ch;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.socials a,
+.socials span {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.socials a {
+  position: relative;
+  transition: color var(--transition);
+}
+
+.socials a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width var(--transition);
+}
+
+.socials a:hover {
+  color: var(--accent);
+}
+
+.socials a:hover::after {
+  width: 100%;
+}
+
+/* Avatar */
+.hero-avatar {
+  display: grid;
+  place-items: center;
+}
+
+.avatar-ring {
+  padding: 6px;
+  border-radius: 50%;
+  background: conic-gradient(from 180deg, var(--accent), transparent, var(--accent));
+  animation: spin 8s linear infinite;
+}
+
+.avatar {
+  width: clamp(160px, 22vw, 240px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--bg-elevated);
+  color: var(--accent);
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  box-shadow: var(--shadow);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Hakkımda ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.about-grid > div:first-child > p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-top: 0;
+}
+
+.info-list {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.info-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.info-list span {
+  flex: 0 0 110px;
+  color: var(--text-muted);
+}
+
+.info-list strong {
+  font-weight: 600;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.stat {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 0.75rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.stat-num {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Deneyim (timeline) ---------- */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--accent);
+}
+
+.timeline-meta {
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+/* Disiplin etiketi (otomasyon / ar-ge ayrımı) */
+.timeline-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.6rem;
+}
+
+.tag-automation {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.tag-rnd {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+[data-theme="dark"] .tag-rnd {
+  color: #34d399;
+}
+
+.timeline-body h3 {
+  font-size: 1.2rem;
+}
+
+.timeline-company {
+  color: var(--text-muted);
+  font-weight: 500;
+  margin: 0.1rem 0 0.5rem;
+}
+
+.timeline-points {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--text-muted);
+}
+
+.timeline-points li {
+  margin-bottom: 0.4rem;
+}
+
+.timeline-points li::marker {
+  color: var(--accent);
+}
+
+/* ---------- Eğitim kartları ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+.card-meta {
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+}
+
+.card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+}
+
+.tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tags span {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- Yetenekler (3 kategori kartı) ---------- */
+.skill-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+.skill-card-title {
+  font-size: 1.1rem;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.skills li {
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: 1px solid transparent;
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.skills li:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+/* ---------- Mühendislik Çözüm Ortaklığı & Elektrik Hizmetleri ---------- */
+
+/* Cam (glassmorphism) ortak efekti */
+.glass {
+  background: color-mix(in srgb, var(--bg-elevated) 60%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+
+.services-intro {
+  max-width: 70ch;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin: 0 0 2.5rem;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.service-card {
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+.service-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.service-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.service-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.service-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ---------- Teklif Talebi Formu ---------- */
+.quote-wrap {
+  border-radius: var(--radius);
+  padding: 2.25rem;
+  box-shadow: var(--shadow);
+}
+
+.quote-head h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.quote-head p {
+  color: var(--text-muted);
+  margin: 0 0 1.75rem;
+}
+
+.quote-form {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: color-mix(in srgb, var(--text-muted) 75%, transparent);
+}
+
+.quote-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.quote-status {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* ---------- İletişim ---------- */
+#contact {
+  text-align: center;
+}
+
+.contact-lead {
+  max-width: 50ch;
+  margin: 0 auto 2rem;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-block: 2rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Erişilebilirlik: odak halkası ---------- */
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ---------- Hareket azaltma tercihi ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .avatar-ring {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* =========================================================
+   Responsive — mobil uyum
+   ========================================================= */
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-block: 3rem;
+  }
+
+  .hero-text {
+    order: 2;
+  }
+
+  .hero-avatar {
+    order: 1;
+  }
+
+  .lead {
+    margin-inline: auto;
+  }
+
+  .hero-actions,
+  .socials {
+    justify-content: center;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-links {
+    display: none; /* Mobilde sade gezinme */
+  }
+
+  .section {
+    padding-block: 3rem;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-wrap {
+    padding: 1.5rem;
+  }
+}
