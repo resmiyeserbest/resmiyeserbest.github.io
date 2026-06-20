@@ -381,7 +381,10 @@
   <!-- Ekranın sol alt köşesinde havada asılı kalan canlı ziyaretçi sayacı -->
   <div id="visit-counter" class="visit-badge" role="status" aria-live="polite">
     <span class="visit-badge__dot" aria-hidden="true"></span>
-    <span class="visit-badge__text">Canlı İzleme: <strong id="visit-count">1</strong> Ziyaret</span>
+    <span class="visit-badge__text">
+      <span class="visit-badge__total">Toplam <strong id="visit-count">1</strong> ziyaret</span>
+      <span class="visit-badge__live">• Şu an sayfada <strong id="active-count">2</strong> ziyaretçi var</span>
+    </span>
   </div>
 
   <script src="script.js"></script>

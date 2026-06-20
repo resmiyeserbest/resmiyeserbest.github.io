@@ -100,23 +100,32 @@
     });
   }
 
-  /* 7) Ziyaretçi sayacı — tarayıcı localStorage (internet gerektirmez)
-     Her açılışta sayıyı 1 artırır ve #visit-count kutusuna yazar. */
-  var counterOut = document.getElementById("visit-count");
+  /* 7) Ziyaretçi sayacı — toplam (localStorage) + anlık aktif (simülasyon) */
 
+  /* 7a) Toplam ziyaret: her açılışta localStorage ile 1 artır */
+  var counterOut = document.getElementById("visit-count");
   if (counterOut) {
     var VISIT_KEY = "cv-visit-count";
-    var count = 1;
-
+    var total = 1;
     try {
       var stored = parseInt(localStorage.getItem(VISIT_KEY), 10);
-      count = (isNaN(stored) ? 0 : stored) + 1;
-      localStorage.setItem(VISIT_KEY, String(count));
+      total = (isNaN(stored) ? 0 : stored) + 1;
+      localStorage.setItem(VISIT_KEY, String(total));
     } catch (e) {
-      /* localStorage kapalıysa en az 1 göster */
-      count = 1;
+      total = 1; /* localStorage kapalıysa en az 1 göster */
     }
+    counterOut.textContent = total.toLocaleString("tr-TR");
+  }
 
-    counterOut.textContent = count.toLocaleString("tr-TR");
+  /* 7b) Anlık aktif ziyaretçi: 1–3 arasında rastgele canlı değişim */
+  var activeOut = document.getElementById("active-count");
+  if (activeOut) {
+    function updateActive() {
+      var n = 1 + Math.floor(Math.random() * 3); /* 1, 2 veya 3 */
+      activeOut.textContent = n;
+      var nextDelay = 3000 + Math.random() * 4000; /* 3–7 sn sonra tekrar */
+      window.setTimeout(updateActive, nextDelay);
+    }
+    updateActive();
   }
 })();
