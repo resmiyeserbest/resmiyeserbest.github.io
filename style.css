@@ -454,31 +454,146 @@ a {
   place-items: center;
 }
 
-.avatar-ring {
-  padding: 6px;
-  border-radius: 50%;
-  background: conic-gradient(from 180deg, var(--accent), transparent, var(--accent));
-  animation: spin 8s linear infinite;
+/* ---------- Fütüristik 3 eksenli robot kolu ---------- */
+.robot {
+  width: clamp(240px, 30vw, 360px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 6px 18px rgba(99, 102, 241, 0.35));
 }
 
-.avatar {
-  width: clamp(160px, 22vw, 240px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--bg-elevated);
-  color: var(--accent);
-  font-family: var(--font-head);
-  font-weight: 700;
-  font-size: clamp(3rem, 6vw, 4.5rem);
-  box-shadow: var(--shadow);
+/* Eklem grupları view-box koordinatlarına göre döner */
+.r-shoulder,
+.r-elbow,
+.r-wrist,
+.r-claw {
+  transform-box: view-box;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.r-shoulder {
+  transform-origin: 140px 206px;
+  animation: r-shoulder 5s ease-in-out infinite;
+}
+
+.r-elbow {
+  transform-origin: 104px 140px;
+  animation: r-elbow 5s ease-in-out infinite;
+}
+
+.r-wrist {
+  transform-origin: 172px 196px;
+  animation: r-wrist 5s ease-in-out infinite;
+}
+
+.r-claw-l {
+  transform-origin: 164px 205px;
+  animation: r-claw-l 5s ease-in-out infinite;
+}
+
+.r-claw-r {
+  transform-origin: 180px 205px;
+  animation: r-claw-r 5s ease-in-out infinite;
+}
+
+/* Kol kemikleri — neon gradyan, parıltılı */
+.r-bone {
+  fill: none;
+  stroke: url(#armGrad);
+  stroke-width: 15;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.65));
+}
+
+.r-joint {
+  fill: var(--bg-elevated);
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.r-gripper {
+  fill: url(#armGrad);
+}
+
+.r-claw {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+/* Taban, kolon ve platform */
+.robot-base,
+.robot-pedestal {
+  fill: var(--bg-elevated);
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+
+.robot-platform {
+  fill: color-mix(in srgb, var(--accent) 22%, transparent);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.robot-floor {
+  fill: rgba(129, 140, 248, 0.16);
+}
+
+.robot-core {
+  fill: #38bdf8;
+  filter: drop-shadow(0 0 8px #38bdf8);
+  animation: r-core 2s ease-in-out infinite;
+}
+
+/* Taşınan kutu — neon */
+.robot-box {
+  fill: url(#boxGrad);
+  stroke: #c7d2fe;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 7px rgba(99, 102, 241, 0.75));
+}
+
+.robot-box-line {
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* Hareket döngüsü: omuz + dirsek kalkar, bilek kutuyu dik tutar */
+@keyframes r-shoulder {
+  0%, 12% { transform: rotate(0deg); }
+  45%, 60% { transform: rotate(-18deg); }
+  93%, 100% { transform: rotate(0deg); }
+}
+
+@keyframes r-elbow {
+  0%, 12% { transform: rotate(0deg); }
+  45%, 60% { transform: rotate(-20deg); }
+  93%, 100% { transform: rotate(0deg); }
+}
+
+@keyframes r-wrist {
+  0%, 12% { transform: rotate(0deg); }
+  45%, 60% { transform: rotate(38deg); }
+  93%, 100% { transform: rotate(0deg); }
+}
+
+/* Pençeler: en altta açılır (bırak/yakala), kaldırırken kapalı */
+@keyframes r-claw-l {
+  0%, 5% { transform: rotate(-12deg); }
+  14%, 90% { transform: rotate(0deg); }
+  98%, 100% { transform: rotate(-12deg); }
+}
+
+@keyframes r-claw-r {
+  0%, 5% { transform: rotate(12deg); }
+  14%, 90% { transform: rotate(0deg); }
+  98%, 100% { transform: rotate(12deg); }
+}
+
+@keyframes r-core {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
 }
 
 /* ---------- Hakkımda ---------- */
@@ -1071,7 +1186,11 @@ a {
 
 /* ---------- Hareket azaltma tercihi ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .avatar-ring,
+  .r-shoulder,
+  .r-elbow,
+  .r-wrist,
+  .r-claw,
+  .robot-core,
   .visit-badge,
   .visit-badge__dot,
   .visit-badge::after {
