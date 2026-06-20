@@ -375,16 +375,14 @@
   <footer class="site-footer">
     <div class="container">
       <p>© <span id="year"></span> Resmiye Serbest · Otomasyon &amp; Ar-Ge Tasarım Mühendisi</p>
-      <div id="visit-counter" class="visit-badge" hidden>
-        <span class="visit-badge__glow" aria-hidden="true"></span>
-        <svg class="visit-badge__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
-        <span class="visit-badge__text">Bu site <strong id="visit-count">—</strong> kez ziyaret edildi</span>
-      </div>
     </div>
   </footer>
+
+  <!-- Sağ alt köşede sabit, parıldayan ziyaretçi sayacı rozeti -->
+  <div id="visit-counter" class="visit-badge" hidden role="status" aria-live="polite">
+    <span class="visit-badge__dot" aria-hidden="true"></span>
+    <span class="visit-badge__text"><strong id="visit-count">—</strong> ziyaret</span>
+  </div>
 
   <script src="script.js"></script>
 </body>
