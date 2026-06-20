@@ -1043,3 +1043,34 @@ a {
     padding: 1.5rem;
   }
 }
+
+/* ---------- Canlı izleme kutucuğu: telefon optimizasyonu ---------- */
+@media (max-width: 480px) {
+  .visit-badge {
+    bottom: 14px !important;
+    left: 14px !important;
+    gap: 0.3rem;
+    padding: 4px 9px;
+    font-size: 10px;
+  }
+
+  /* İki satır yerine tek satırda yan yana göster */
+  .visit-badge__text {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.4rem;
+    line-height: 1.2;
+  }
+
+  /* Satırları ayıran ince dikey çizgi */
+  .visit-badge__live {
+    font-size: 10px;
+    padding-left: 0.4rem;
+    border-left: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .visit-badge__dot {
+    width: 5px;
+    height: 5px;
+  }
+}
