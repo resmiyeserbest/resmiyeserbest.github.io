@@ -99,4 +99,25 @@
       form.reset();
     });
   }
+
+  /* 7) Ziyaretçi sayacı — CounterAPI (ücretsiz, anahtarsız servis) */
+  var counterWrap = document.getElementById("visit-counter");
+  var counterOut = document.getElementById("visit-count");
+
+  if (counterWrap && counterOut && "fetch" in window) {
+    fetch("https://api.counterapi.dev/v1/resmiyeserbest-cv/site-visits/up")
+      .then(function (res) {
+        if (!res.ok) throw new Error("Sayaç yanıtı geçersiz");
+        return res.json();
+      })
+      .then(function (data) {
+        var count = data && (data.count != null ? data.count : data.value);
+        if (count == null) return;
+        counterOut.textContent = Number(count).toLocaleString("tr-TR");
+        counterWrap.hidden = false;
+      })
+      .catch(function () {
+        /* Servise ulaşılamazsa sayaç gizli kalır */
+      });
+  }
 })();
